@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-
 public class MotorbikeService {
 
     private final MotorbikeRepository motorbikeRepository;
@@ -122,15 +121,26 @@ public class MotorbikeService {
     }
 
     public MotorbikeMessage listMotorbikes() {
-        MotorbikeMessage message = new MotorbikeMessage();
-        List<MotorbikeEntity> motos = motorbikeRepository.findAll();
-        if(motos.isEmpty()) {
-            message.setMessage("No hay motos registradas");
-        } else {
-            message.setMessage("Hay " + motos.size() + " motos registradas");
-        }
-        return message;
+    MotorbikeMessage message = new MotorbikeMessage();
+    List<MotorbikeEntity> motos = motorbikeRepository.findAll();
+
+    if (motos.isEmpty()) {
+        message.setMessage("No hay motos registradas");
+    } else {
+        String allMotos = motos.stream()
+            .map(m -> "ID: " + m.getId() 
+                    + " | Marca: " + m.getBrand()
+                    + " | Modelo: " + m.getModel()
+                    + " | CC: " + m.getCubicCentimeters()
+                    + " | Precio: " + m.getPrice()
+                    + " | Cantidad: " + m.getQuantity())
+            .reduce((m1, m2) -> m1 + "\n" + m2)
+            .orElse("");
+        message.setMessage("Motos registradas:\n" + allMotos);
     }
+
+    return message;
+}
 
     public MotorbikeMessage getMotorbikeById(Long id) {
         MotorbikeMessage message = new MotorbikeMessage();
@@ -139,8 +149,8 @@ public class MotorbikeService {
             message.setMessage("Moto no encontrada");
         } else {
             MotorbikeEntity moto = motoOpt.get();
-            message.setMessage("Moto: " + moto.getBrand() + " " + moto.getModel() + " | Stock: " + moto.getQuantity());
+            message.setMessage("Moto: " + moto.getBrand() + " " + moto.getModel() + " | Stock: " + moto.getQuantity() + " " + " | CC: " +moto.getCubicCentimeters() + " " + " | Precio: " + moto.getPrice());
         }
         return message;
     }
-};
+}

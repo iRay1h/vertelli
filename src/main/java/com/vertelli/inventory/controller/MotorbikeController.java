@@ -27,7 +27,7 @@ public class MotorbikeController {
         return ResponseEntity.ok(message);
     }
 
-    @PutMapping()
+    @PutMapping("/{id}")
     public ResponseEntity<MotorbikeMessage> updateMotorbike(@PathVariable Long id, @RequestBody MotorbikeRequest request) {
         MotorbikeMessage message = new MotorbikeMessage();
         try {
@@ -38,7 +38,7 @@ public class MotorbikeController {
         return ResponseEntity.ok(message);
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/{id}")
     public ResponseEntity<MotorbikeMessage> deleteMotorbike(@PathVariable Long id) {
         MotorbikeMessage message = new MotorbikeMessage();
         try {
@@ -49,7 +49,7 @@ public class MotorbikeController {
         return ResponseEntity.ok(message);
     }
 
-     @PatchMapping()
+     @PatchMapping("/{id}")
     public ResponseEntity<MotorbikeMessage> adjustQuantity(@PathVariable Long id, @RequestParam int change) {
         MotorbikeMessage message = new MotorbikeMessage();
         try {
