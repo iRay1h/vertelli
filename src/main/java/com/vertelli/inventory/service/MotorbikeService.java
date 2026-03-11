@@ -98,27 +98,42 @@ public class MotorbikeService {
         return message;
     }
 
-    public MotorbikeMessage adjustQuantity(Long id, int change) {
-        MotorbikeMessage message = new MotorbikeMessage();
+    public MotorbikeMessage adjustQuantity(Long id, Integer add, Integer remove) {
 
-        Optional<MotorbikeEntity> motoOpt = motorbikeRepository.findById(id);
-        if(motoOpt.isEmpty()) {
-            message.setMessage("Moto no encontrada");
-            return message;
-        }
+    MotorbikeMessage message = new MotorbikeMessage();
 
-        MotorbikeEntity moto = motoOpt.get();
-        int newQuantity = moto.getQuantity() + change;
-        if(newQuantity < 0) {
-            message.setMessage("No hay suficiente stock");
-            return message;
-        }
+    Optional<MotorbikeEntity> motoOpt = motorbikeRepository.findById(id);
 
-        moto.setQuantity(newQuantity);
-        motorbikeRepository.save(moto);
-        message.setMessage("Cantidad ajustada correctamente");
+    if(motoOpt.isEmpty()) {
+        message.setMessage("Moto no encontrada");
         return message;
     }
+
+    MotorbikeEntity moto = motoOpt.get();
+    int currentQuantity = moto.getQuantity();
+
+    if(add != null) {
+        currentQuantity = currentQuantity + add;
+    }
+
+    if(remove != null) {
+
+        if(remove > currentQuantity) {
+            message.setMessage("No hay suficientes motos para eliminar");
+            return message;
+        }
+
+        currentQuantity = currentQuantity - remove;
+    }
+
+    moto.setQuantity(currentQuantity);
+
+    motorbikeRepository.save(moto);
+
+    message.setMessage("Cantidad actualizada. Ahora hay " + currentQuantity + " motos");
+
+    return message;
+}
 
     public MotorbikeMessage listMotorbikes() {
     MotorbikeMessage message = new MotorbikeMessage();

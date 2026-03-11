@@ -50,15 +50,21 @@ public class MotorbikeController {
     }
 
      @PatchMapping("/{id}")
-    public ResponseEntity<MotorbikeMessage> adjustQuantity(@PathVariable Long id, @RequestParam int change) {
-        MotorbikeMessage message = new MotorbikeMessage();
-        try {
-            message = motorbikeService.adjustQuantity(id, change);
-        } catch (Exception e) {
-            message.setMessage("Error: " + e.getMessage());
-        }
-        return ResponseEntity.ok(message);
+public ResponseEntity<MotorbikeMessage> adjustQuantity(
+        @PathVariable Long id,
+        @RequestParam(required = false) Integer add,
+        @RequestParam(required = false) Integer remove) {
+
+    MotorbikeMessage message = new MotorbikeMessage();
+
+    try {
+        message = motorbikeService.adjustQuantity(id, add, remove);
+    } catch (Exception e) {
+        message.setMessage("Error: " + e.getMessage());
     }
+
+    return ResponseEntity.ok(message);
+}
 
     @GetMapping()
     public ResponseEntity<MotorbikeMessage> listMotorbikes() {
