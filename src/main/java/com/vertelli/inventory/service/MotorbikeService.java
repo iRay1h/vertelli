@@ -98,4 +98,49 @@ public class MotorbikeService {
         message.setMessage("Moto eliminada correctamente");
         return message;
     }
+
+    public MotorbikeMessage adjustQuantity(Long id, int change) {
+        MotorbikeMessage message = new MotorbikeMessage();
+
+        Optional<MotorbikeEntity> motoOpt = motorbikeRepository.findById(id);
+        if(motoOpt.isEmpty()) {
+            message.setMessage("Moto no encontrada");
+            return message;
+        }
+
+        MotorbikeEntity moto = motoOpt.get();
+        int newQuantity = moto.getQuantity() + change;
+        if(newQuantity < 0) {
+            message.setMessage("No hay suficiente stock");
+            return message;
+        }
+
+        moto.setQuantity(newQuantity);
+        motorbikeRepository.save(moto);
+        message.setMessage("Cantidad ajustada correctamente");
+        return message;
+    }
+
+    public MotorbikeMessage listMotorbikes() {
+        MotorbikeMessage message = new MotorbikeMessage();
+        List<MotorbikeEntity> motos = motorbikeRepository.findAll();
+        if(motos.isEmpty()) {
+            message.setMessage("No hay motos registradas");
+        } else {
+            message.setMessage("Hay " + motos.size() + " motos registradas");
+        }
+        return message;
+    }
+
+    public MotorbikeMessage getMotorbikeById(Long id) {
+        MotorbikeMessage message = new MotorbikeMessage();
+        Optional<MotorbikeEntity> motoOpt = motorbikeRepository.findById(id);
+        if(motoOpt.isEmpty()) {
+            message.setMessage("Moto no encontrada");
+        } else {
+            MotorbikeEntity moto = motoOpt.get();
+            message.setMessage("Moto: " + moto.getBrand() + " " + moto.getModel() + " | Stock: " + moto.getQuantity());
+        }
+        return message;
+    }
 };
