@@ -1,0 +1,14 @@
+create database vertelli;
+
+use vertelli;
+
+create table motorbike(
+
+id int primary key auto_increment UNIQUE NOT NULL,
+brand varchar (50),
+model varchar (50),
+cubic_centimeters int,
+price int,
+quantity int
+
+);
