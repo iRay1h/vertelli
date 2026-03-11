@@ -48,4 +48,37 @@ public class MotorbikeController {
         }
         return ResponseEntity.ok(message);
     }
+
+     @PatchMapping()
+    public ResponseEntity<MotorbikeMessage> adjustQuantity(@PathVariable Long id, @RequestParam int change) {
+        MotorbikeMessage message = new MotorbikeMessage();
+        try {
+            message = motorbikeService.adjustQuantity(id, change);
+        } catch (Exception e) {
+            message.setMessage("Error: " + e.getMessage());
+        }
+        return ResponseEntity.ok(message);
+    }
+
+    @GetMapping()
+    public ResponseEntity<MotorbikeMessage> listMotorbikes() {
+        MotorbikeMessage message = new MotorbikeMessage();
+        try {
+            message = motorbikeService.listMotorbikes();
+        } catch (Exception e) {
+            message.setMessage("Error: " + e.getMessage());
+        }
+        return ResponseEntity.ok(message);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MotorbikeMessage> getMotorbikeById(@PathVariable Long id) {
+        MotorbikeMessage message = new MotorbikeMessage();
+        try {
+            message = motorbikeService.getMotorbikeById(id);
+        } catch (Exception e) {
+            message.setMessage("Error: " + e.getMessage());
+        }
+        return ResponseEntity.ok(message);
+    }
 }
