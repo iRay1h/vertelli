@@ -9,10 +9,10 @@
         <version>3.2.2</version>
         <relativePath />
     </parent>
-	<groupId>com.vortelli</groupId>
-	<artifactId>tienda</artifactId>
+	<groupId>com.vertelli</groupId>
+	<artifactId>inventory</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tienda</name>
+	<name>inventory</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
